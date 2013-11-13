@@ -16,8 +16,13 @@ It's particularly designed around the needs of websites where performance needs 
 
 ## Screenshots:
 
+Summary graph view:
 ![](screenshots/results_graph.png?raw=true)
+
+Compare view:
 ![](screenshots/compare.png?raw=true)
+
+Analyse object view:
 ![](screenshots/analyse_object.png?raw=true)
 
 ## Set-up
