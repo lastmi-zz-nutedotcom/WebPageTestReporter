@@ -55,3 +55,4 @@ To set up the Reporter:
  * Once you have created several scenarios you can compare them by clicking the 'Compare' tab
  * The Analyse tab is used to show all the objects that were downloaded in the last run of any given scenario. The Speed Index is a combination of how long the object took to download, and how many other objects were downloading in parallel at the same time (eg a Javascript that blocks anything else downloading simultaneously will have a six times higher Speed Index than a PNG that was downloading at the same time as five other images)
  * By clicking 'trend' to the right of any item in the Analyse tab you can see the download time for that object over time - this is useful for third party items such as ads, though only works if their url stays fixed.  
+ * If you want to measure using the User Timing API instead of a named DOM element, then call the timing 'above_the_fold_rendered' 
