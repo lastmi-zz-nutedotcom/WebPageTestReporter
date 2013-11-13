@@ -1,0 +1,62 @@
+ul class="nav nav-tabs"
+  li class="active" = link_to tag_icon(:list, pat(:list)), url(:scenarios, :index)
+  li = link_to tag_icon(:plus, pat(:new)), url(:scenarios, :new)
+
+div class="tabs-content"
+  table class="table table-striped table-hover table-condensed" id="list"
+    thead
+      tr
+        th class='header list-menu'
+          div class='dropdown'
+            a href='#' class='list-menu-toggle.dropdown-toggle dropdown-toggle' data-toggle='dropdown'
+              = tag_icon :magic
+              span class='caret'
+            ul class='list-menu dropdown-menu' role='dropdown'
+              li class='list-menu-wrapper' = link_to tag_icon(:check, pat(:select_all)), '#', :id => 'select-all', :class => 'list-menu-link'
+              li class='list-menu-wrapper list-menu-wrapper-disabled' = link_to tag_icon('check-empty', pat(:deselect_all)), '#', :id => 'deselect-all', :class => 'list-menu-link list-menu-link-disabled'
+              li class='list-menu-divider divider'
+              li class='list-menu-wrapper list-menu-wrapper-disabled'
+                = link_to tag_icon(:trash, pat(:delete_selected)), '#', :id => 'delete-selected', :class => 'list-menu-link list-menu-link-disabled'
+                div class='list-menu-popover-delete-selected popover right'
+                  div class='arrow'
+                  h3 class='popover-title' = pat(:delete_selected_title)
+                  div class='popover-content'
+                    - form_tag url(:scenarios, :destroy_many), :method => :delete do
+                      = hidden_field_tag :scenario_ids, :'data-delete-many-ids' => true
+                      = submit_tag  pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
+                      div class='btn btn-small cancel' = pat(:cancel)
+        th class='header' = mat(:scenario, :scenario_group)
+        th class='header' = mat(:scenario, :scenario_id)
+        th class='header' = mat(:scenario, :description)
+        th class='header' = mat(:scenario, :location_region)
+        th class='header' = mat(:scenario, :connection_speed)
+        th class='header' = mat(:scenario, :domelement)
+        th class='header' = mat(:scenario, :browser)
+        th class='header' = mat(:scenario, :enabled_for_capture)
+        th class='header' = mat(:scenario, :include_in_reports)
+        th class='header list-row-action-header'
+
+    tbody
+      -@scenarios.each do |scenario|
+        tr class='list-row'
+          td class='list-column list-selectable' = check_box_tag 'scenario_ids[]', :value => scenario.id, :class => 'list-selectable-checkbox'
+          td class='list-column' = (scenario.scenario_group ? scenario.scenario_group.name : '')
+          td class='list-column' = scenario.scenario_id
+          td class='list-column' = scenario.description
+          td class='list-column' = scenario.location_region
+          td class='list-column' = scenario.connection_speed
+          td class='list-column' = scenario.domelement
+          td class='list-column' = scenario.browser
+          td class='list-column' = scenario.enabled_for_capture
+          td class='list-column' = scenario.include_in_reports
+          td class='list-column list-row-action'
+            div class='list-row-action-wrapper'
+              = link_to tag_icon(:edit), :href => url(:scenarios, :edit, :id => scenario.id), :rel => :tooltip, :title => "#{pat(:edit)} scenario", :class => 'list-row-action-wrapper-link'
+              = link_to tag_icon(:trash), :rel => :tooltip, :title => "#{pat(:delete)} scenario", :class => 'list-row-action-delete-one list-row-action-wrapper-link'
+              div class='popover list-row-action-popover-delete-one left'
+                div class='arrow'
+                h3 class='popover-title' = pat(:delete, :model => "scenario")
+                div class='popover-content'
+                  - form_tag url(:scenarios, :destroy, :id => scenario.id), :method => :delete do
+                    = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
+                    div class='btn btn-small cancel' = pat(:cancel)

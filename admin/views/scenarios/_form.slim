@@ -1,0 +1,79 @@
+- error = @scenario.errors.include?(:scenario_group_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :scenario_group_id, :class => 'control-label'
+  div class='controls'
+    = f.select :scenario_group_id, :collection => ScenarioGroup.all, :fields => [:name, :id]
+    span class='help-inline' = error ? f.error_message_on(:scenario_group_id, :class => 'text-error') : pat(:example)
+- error = @scenario.errors.include?(:scenario_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :scenario_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :scenario_id, :class => 'input-xlarge input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:scenario_id, :class => 'text-error') : "Ex: SCENARIO1"
+- error = @scenario.errors.include?(:description)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :description, :class => 'control-label'
+  div class='controls'
+    = f.text_field :description, :class => 'input-xlarge input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:description, :class => 'text-error') : "Ex: London 1 room 2 adults"
+- error = @scenario.errors.include?(:url)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :url, :class => 'control-label'
+  div class='controls'
+    = f.text_field :url, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:url, :class => 'text-error') : "Url for test to hit. Can include Liquid templates, eg http://abc.com/mypage?date={{ this_friday | date: \"%Y-%m-%d\" }}"
+- error = @scenario.errors.include?(:location_region)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :location_region, :class => 'control-label'
+  div class='controls'
+    = f.text_field :location_region, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:location_region, :class => 'text-error') : "Can be US_East or EU_West"
+- error = @scenario.errors.include?(:connection_speed)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :connection_speed, :class => 'control-label'
+  div class='controls'
+    = f.text_field :connection_speed, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:connection_speed, :class => 'text-error') : "Can be Cable, DSL or Dial"
+- error = @scenario.errors.include?(:domelement)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :domelement, :class => 'control-label'
+  div class='controls'
+    = f.text_field :domelement, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:domelement, :class => 'text-error') : "ID of the DOM element to consider page loaded"
+- error = @scenario.errors.include?(:browser)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :browser, :class => 'control-label'
+  div class='controls'
+    = f.text_field :browser, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:browser, :class => 'text-error') : "Can be IE9 or Chrome"
+- error = @scenario.errors.include?(:next_run_time)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :next_run_time, :class => 'control-label'
+  div class='controls'
+    = f.text_field :next_run_time, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:next_run_time, :class => 'text-error') : "Ex: 2013-01-23 18:00:00"
+- error = @scenario.errors.include?(:run_interval)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :run_interval, :class => 'control-label'
+  div class='controls'
+    = f.text_field :run_interval, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:run_interval, :class => 'text-error') : "In minutes"
+- error = @scenario.errors.include?(:enabled_for_capture)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :enabled_for_capture, :class => 'control-label'
+  div class='controls'
+    = f.check_box :enabled_for_capture, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:enabled_for_capture, :class => 'text-error') : "Indicates whether to capture data for the scenario"
+- error = @scenario.errors.include?(:include_in_reports)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :include_in_reports, :class => 'control-label'
+  div class='controls'
+    = f.check_box :include_in_reports, :class => 'input-xlarge input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:include_in_reports, :class => 'text-error') : "Indicates whether to include the scenario when reporting"
+
+div class="form-actions"
+  = f.submit pat(:save), :class => 'btn btn-primary'
+  |&nbsp;
+  = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  |&nbsp;
+  = link_to pat(:cancel), url(:scenarios, :index), :class => 'btn'

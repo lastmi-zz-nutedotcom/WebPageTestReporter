@@ -1,0 +1,83 @@
+<ul class="nav nav-tabs">
+	<% @scenario_groups.each do |scenario_group| %>
+	<li <% if scenario_group.id.to_s == @current_scenario_group_id %>class="active"<% end %>><a href="?scenario_group_id=<%= scenario_group.id%>"><%= scenario_group.name %></a></li>
+	<% end %>
+</ul>
+<p style="margin-top:20px"><b>Select scenario:</b>
+<select id="scenario" onChange="redraw()">
+		<option></option>
+		<% @scenarios.each_with_index do |scenario, index| %>
+			<option value="<%=scenario.scenario_id%>" <% if @scenario_id == scenario.scenario_id %> selected <% end %>>
+				<%=scenario.description%></option>
+		<% end %>
+	</select>
+</p>
+<table id="table" class="table">
+	<thead>
+		<tr>
+			<td>URL</td>
+			<td>DNS Time</td>
+			<td>Connect Time</td>
+			<td>Time to First Byte</td>
+			<td>Download Time</td>
+			<td>Total</td>
+			<td>Speed Index</td>
+			<td>Trend</td>
+		</tr>
+	</thead>
+
+<% @objects.each_with_index do | obj, index | %>
+	<tr>
+		<td><%= obj.object_url %></td>
+		<td><%= obj.dns_time %></td>
+		<td><%= obj.time_to_connect %></td>
+		<td><%= obj.time_to_first_byte %></td>
+		<td><%= obj.time_to_download %></td>
+		<td><%= obj.total_time %></td>
+		<td><%= obj.speed_index %></td>	
+		<td><a style="cursor:hand" onClick="displayTrend('<%= obj.object_url %>')">Go</a></td>
+	</tr>
+<% end unless @objects == nil %>
+</table>
+
+<a name="graph">
+<div id="graphdiv"
+  style="width:1000px; height:500px; margin-top: 80px; margin-bottom: 10px"></div>
+</a>
+<script type="text/javascript">
+
+function displayTrend(object_url) {
+	url = "object_times.csv?scenario=<%= @scenario_id %>&url=" + object_url
+	
+	new Dygraph(
+	    document.getElementById("graphdiv"),
+	    url, // path to CSV file
+	    {showRoller: true,
+		title: object_url,
+		ylabel: 'Milliseconds',
+		labels: ["Date", "Download Time", "Time to First Byte", "Connect Time", "DNS Time"],
+		legend: 'always',
+		stackedGraph: true,
+		connectSeparatedPoints: true,
+		highlightCircleSize: 2,
+	        strokeWidth: 1,
+        	strokeBorderWidth: 0,
+        clickCallback: function(e, x, pts) { window.open('show_details?scenario=<%= @scenario_id%>&time=' + x) },
+		showRangeSelector: true
+        	 }          // options
+	  );
+  	location.hash = "";
+  	location.hash = "#graph";
+}
+
+function redraw() {
+	  	url = "analyse?scenario_group_id=<%= @current_scenario_group_id%>&scenario=" + $("#scenario").val();
+	  	window.location = url;
+	  }
+$(document).ready(function() {
+	$('#table').dataTable( {
+		    "bPaginate": false,
+	    		"aaSorting": [[ 6, "desc" ]]
+	});
+} );
+</script>

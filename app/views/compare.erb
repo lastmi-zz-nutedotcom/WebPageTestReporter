@@ -1,0 +1,59 @@
+<div class="well">This view allows you to compare the results of up to three different scenarios over time.</div>
+<ul class="nav nav-tabs">
+	<% @scenario_groups.each do |scenario_group| %>
+	<li <% if scenario_group.id.to_s == @current_scenario_group_id %>class="active"<% end %>><a href="?scenario_group_id=<%= scenario_group.id%>"><%= scenario_group.name %></a></li>
+	<% end %>
+</ul>
+<p>
+	<input onChange="redraw()" type="radio" name="graph_type" checked value="time_to_first_byte"> To First Byte</input>
+	<input onChange="redraw()" type="radio" name="graph_type" value="time_to_aft"> To DOM element</input>
+	<input onChange="redraw()" type="radio" name="graph_type" value="client_side"> Client-side</input>
+</p>
+<p>Compare:</p>
+<% (0..2).each do |index| %>
+<p>
+	<select id="scenario<%=index%>" onChange="redraw()">
+		<option></option>
+		<% @scenarios.each_with_index do |scenario, index| %>
+			<option value="<%=scenario.scenario_id%>"><%=scenario.description%></option>
+		<% end %>
+	</select>
+</p>
+<% end %>
+
+<div id="graphdiv"
+  style="width:1000px; height:500px; margin-top: 40px; margin-bottom: 10px"></div>
+<script type="text/javascript">
+  function redraw() {
+  	url = "compare_results.csv?scenarios="
+  	labels = ['Date']
+  	display_graph = false
+  	for (var i=0; i < 3; i++) {
+  		if ($("#scenario" + i).val() == '') continue
+  		display_graph = true;
+			url = url + $("#scenario" + i).val() + ","
+			labels[i + 1] = $("#scenario" + i + " option:selected").text();
+  	}
+  	if (display_graph) {
+	  	url = url + "&graph_type=" + $('input[name=graph_type]:radio:checked').val();
+	  	new Dygraph(
+		    document.getElementById("graphdiv"),
+		    url, // path to CSV file
+		    {showRoller: true,
+		    labels: labels,
+			title: 'Compare results',
+			ylabel: 'Milliseconds',
+			legend: 'always',
+			connectSeparatedPoints: true,
+			valueRange: [0,15000],
+			highlightCircleSize: 2,
+		        strokeWidth: 1,
+	        	strokeBorderWidth: 0,
+			colors: ["rgb(51,204,204)", "rgb(255,100,100)", "rgba(50,50,200,0.4)"],
+			showRangeSelector: true
+	        	 }          // options
+		  );
+	  }
+  }
+  redraw();
+</script>

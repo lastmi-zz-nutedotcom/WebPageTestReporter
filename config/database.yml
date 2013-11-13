@@ -1,0 +1,19 @@
+development:
+  sessions:
+    default:
+      database: topline_search_results
+      hosts:
+        - localhost:27017
+test:
+  sessions:
+    default:
+      database: topline_search_results
+      hosts:
+        - localhost:27017
+production:
+  sessions:
+    default:
+      database: topline_search_results
+      hosts:
+        - localhost:27017
+        

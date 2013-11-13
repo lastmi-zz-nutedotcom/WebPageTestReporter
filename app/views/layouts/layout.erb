@@ -1,0 +1,26 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="javascripts/dygraph-combined.js"></script>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://datatables.net/release-datatables/media/css/demo_table.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+<script src="http://datatables.net/release-datatables/media/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<div class="navbar">
+  <a class="navbar-brand" href="/">WPT Reporter</a>
+  <ul class="nav navbar-nav">
+    <li class="<%= @nav_selected == :index ? 'active' : '' %>"><a href="index">Home</a></li>
+    <li class="<%= @nav_selected == :summary ? 'active' : '' %>"><a href="summary">Summary</a></li>
+    <li class="<%= @nav_selected == :compare ? 'active' : '' %>"><a href="compare">Compare</a></li>
+    <li class="<%= @nav_selected == :analyse ? 'active' : '' %>"><a href="analyse">Analyse</a></li>
+    <li><a href="admin/scenarios/">Admin</a></li>
+  </ul>
+</div>
+<div class="container">
+	<%= yield %>
+</div>
+</body>
+</html>
+

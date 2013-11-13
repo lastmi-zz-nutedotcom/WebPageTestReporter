@@ -1,0 +1,57 @@
+<ul class="nav nav-tabs">
+	<% @scenario_groups.each do |scenario_group| %>
+	<li <% if scenario_group.id.to_s == @current_scenario_group_id %>class="active"<% end %>><a href="?scenario_group_id=<%= scenario_group.id%>"><%= scenario_group.name %></a></li>
+	<% end %>
+</ul>
+
+<table class="table table-striped table-bordered table-condensed">
+<thead>
+	<tr>
+		<th>ID</th>
+		<th>Scenario</th>
+		<th>Location</th>
+		<th>Connection Speed</th>
+	</tr>
+</thead>
+<% @scenarios.each_with_index do |scenario, index| %>
+	<tr>
+		<td><%= scenario.scenario_id %></td>
+		<td><a href="#scenario<%= scenario.scenario_id %>"><%= scenario.description %></a></td>
+		<td><%= scenario.location_region %></td>
+		<td><%= scenario.connection_speed %></td>
+	</tr>
+<% end %>
+</table>		
+
+<% @scenarios.each_with_index do |scenario, index| %>
+	<a name="scenario<%= scenario.scenario_id%>"></a>
+	<div id="graphdiv<%= index %>" style="width:1000px; height:500px; margin-top: 40px; margin-bottom: 10px"></div>
+	
+	<script type="text/javascript">
+	  g<%= index %> = new Dygraph(
+	    document.getElementById("graphdiv<%= index %>"),
+	    "results.csv?scenario=<%= scenario.scenario_id %>", // path to CSV file
+	    {showRoller: true,
+		labels: [ "Date", "To First Byte", "To DOM element", "Client-side" ],
+		title: '<%= scenario.description %>',
+		ylabel: 'Milliseconds',
+		legend: 'always',
+		valueRange: [0,15000],
+		highlightCircleSize: 2,
+	        strokeWidth: 1,
+        	strokeBorderWidth: 0,
+		colors: ["rgb(51,204,204)", "rgb(255,100,100)", "rgba(50,50,200,0.4)"],
+		clickCallback: function(e, x, pts) { window.open('show_details?scenario=<%= scenario.scenario_id%>&time=' + x) },
+		showRangeSelector: true
+        	 }          // options
+	  );
+	</script>
+	<p><input type=checkbox id=0 onClick="g<%= index %>.setVisibility(this.id, this.checked)" checked>
+    	<label for="0"> To First Byte</label>
+	<input type=checkbox id=1 onClick="g<%= index %>.setVisibility(this.id, this.checked)" checked>
+        <label for="1"> To DOM element</label>
+	<input type=checkbox id=2 onClick="g<%= index %>.setVisibility(this.id, this.checked)" checked>
+        <label for="2"> Client-side</label>
+    </p>
+<% end %>
+</div>
