@@ -1,6 +1,6 @@
 # WebPageTest Reporter System
 
-This is a Ruby app designed to go with WebPageTest that lets you schedule regular test execution and analyse the execution results.
+This is a Ruby app designed to go with WebPageTest that lets you schedule regular test execution and analyse the execution results. It's a bit similar to the 'WPT Monitor' project, but more customised towards our needs.
 
 The core concept is that of a test scenario, which is a specific combination of url, browser and connection type (eg Cable, DSL, etc).  Test scenarios are assigned to a 'Scenario Group', which forms a tab in the UI to avoid it being cluttered if there are many test scenarios. 
 
@@ -11,6 +11,7 @@ The app:
  * Allows variables in test scenario urls (currently just implemented for specific date functions)
  * Can overlay different test scenarios for comparison purposes
  * Can display a list of every object in the page, and a trend graph for each for it's performance over time (especially useful for objects that are downloaded from third parties)
+ * Lets you jump straight to the detailed WebPageTest report just by clicking any data-point. 
 
 It's particularly designed around the needs of websites where performance needs to be tracked over a long period of time, and around tracking time to above-the-fold rather than page completion.
 
